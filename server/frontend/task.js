@@ -8,7 +8,8 @@ const API_URL = 'http://localhost:3000/api/v1';
 // Retrieve user details from localStorage
 const userDetails = JSON.parse(localStorage.getItem('userDetails'));
 if (userDetails) {
-    console.log('User  Details:', userDetails); // You can use userDetails as needed
+    console.log('User  Details:', userDetails);
+    // loadTasks() // You can use userDetails as needed
     // For example, display the user's name on the page
     // document.getElementById('welcomeMessage').textContent = `Welcome, ${userDetails.username}!`;
 } else {
@@ -62,30 +63,17 @@ async function loadTasks() {
 
         const li = document.createElement('li');
    
-        taskList.appendChild(li)
+        // taskList.appendChild(li)
         
         // li.textContent = `${task.title} - ${task.description} (Due: ${task.deadline}) `;
-        li.innerHTML =`<li class="" data-id= ${task._id}><span class="text">${task.title} </span> <span class="texts"> ${task.description}</span><button>update</button><span class="close">×</span></li>`
-        taskList.appendChild(li);
+        taskList.innerHTML +=`<li class="" data-id= ${task._id}><span class="text">${task.title} </span>  <span class="texts"> ${task.description}</span><span class="text">${task.deadline} </span><span class="close">×</span></li>`
+        // taskList.appendChild(li);
     });
 }
 // Load tasks on page load
 loadTasks()
 
-// taskList.addEventListener('click', function(e){
-//     if(e.target.tagName === "LI"){
-//         e.target.classList.toggle("checked")
-//         // saveData()
-//     }else if (e.target.tagName === "SPAN"){
-//         e.target.parentElement.remove()
-//         // saveData()
-//     }else if (e.target.tagName === "BUTTON"){
-//         console.log(e.target.parentElement.textContent)
-//         modal.style.display = "revert"
-//         // modal.innerHTML = e.target.parentElement.textContent
-//     }
 
-// }, false);
 
 
 
@@ -96,6 +84,7 @@ taskList.addEventListener('click', function(e) {
     } else if (e.target.tagName === "SPAN") {
         const itemId = e.target.parentElement.getAttribute('data-id'); // Assuming you store the ID in a data attribute
         e.target.parentElement.remove();
+        
         // await fetch(`${API_URL}/tasks`
         // Send DELETE request to the server
         fetch(`${API_URL}/${itemId}`, {
@@ -117,7 +106,8 @@ taskList.addEventListener('click', function(e) {
         // saveData()
     } else if (e.target.tagName === "BUTTON") {
         console.log(e.target.parentElement.textContent);
-        modal.style.display = "revert";
+        e.target.parentElement.remove();
+        // modal.style.display = "revert";
         // modal.innerHTML = e.target.parentElement.textContent
     }
 }, false);
